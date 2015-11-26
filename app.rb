@@ -49,3 +49,10 @@ get '/post/:id' do
 	@row=results[0]
 	erb :posts
 end
+
+post '/post/:id' do
+	comment=params[:content]
+	post_id=params[:id]
+	erb " #{post_id}   #{comment}"
+
+end
