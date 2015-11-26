@@ -54,14 +54,22 @@ get '/post/:id' do
 	post_id=params[:id]
 	results=@db.execute 'select * from Posts where id=(?)',[post_id]
 	@row=results[0]
-	@comments=@db.execute 'select * from Comments where post_id=(?)',[post_id]
+	@comments=@db.execute 'select * from Comments where post_id=(?) order by id',[post_id]
 	erb :posts
 end
 
 post '/post/:id' do
 	comment=params[:content]
 	post_id=params[:id]
-	@db.execute 'insert into Comments (content, created_date, post_id) values (?, datetime(), ?)', [comment, post_id]
+	if comment.length <= 0
+  		@error= "Please, type comment text"
+  		results=@db.execute 'select * from Posts where id=(?)',[post_id]
+		@row=results[0]
+		@comments=@db.execute 'select * from Comments where post_id=(?) order by id',[post_id]
+		return erb :posts
+  	else  	
+		@db.execute 'insert into Comments (content, created_date, post_id) values (?, datetime(), ?)', [comment, post_id]
+	end
 	redirect to ('/post/' + post_id)
 
 end
