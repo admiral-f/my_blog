@@ -1,7 +1,7 @@
 <h2>Latest posts:</h2>
 
 <% @results.each do |post| %>
-	<div class="bs-callout bs-callout-success""> 
+	<div class="bs-callout bs-callout-success"> 
 		<p><b><%= post['content']%></b></p>
 		</br>
 		<a href= "/post/<%= post['id']%>"">Comments </a>
