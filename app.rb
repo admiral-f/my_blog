@@ -60,7 +60,7 @@ end
 post '/post/:id' do
 	comment=params[:content]
 	post_id=params[:id]
-
-	erb " #{post_id}   #{comment}"
+	@db.execute 'insert into Comments (content, created_date, post_id) values (?, datetime(), ?)', [comment, post_id]
+	redirect to ('/post/' + post_id)
 
 end
