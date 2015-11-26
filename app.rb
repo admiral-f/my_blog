@@ -25,8 +25,8 @@ configure do
 end
 
 get '/' do
-	@results=@db.execute 'select * from Posts order by id desc'
-	erb :index			
+	@results=@db.execute 'select * from Posts order by id desc'	
+    erb :index 			
 end
 
 get '/new' do
@@ -45,5 +45,7 @@ end
 
 get '/post/:id' do
 	post_id=params[:id]
-	erb "post with id #{post_id}"
+	results=@db.execute 'select * from Posts where id=(?)',[post_id]
+	@row=results[0]
+	erb :posts
 end
