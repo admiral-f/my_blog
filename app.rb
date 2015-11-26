@@ -41,13 +41,19 @@ get '/new' do
 end
 
 post '/new' do
-  content=params[:content]
-  if content.length <= 0
-  	@error= 'Please, type post text'
-  	return erb :new
+  @content=params[:content]
+  @name=params[:name]
+  hh={:name=> "Please, enter your name", :content=>"Please, type post text"}
+  @error=hh.select {|key,_| params[key]==""}.values.join("; ")
+  #if content.length <= 0
+  	#@error= 'Please, type post text'
+  	#return erb :new
+  #end
+  if @error==''
+  	@db.execute 'insert into Posts (content, created_date) values (?, datetime())', [@content]
+  	redirect to ('/')
   end
-  @db.execute 'insert into Posts (content, created_date) values (?, datetime())', [content]
-  redirect to ('/')
+  erb :new
 end
 
 get '/post/:id' do
