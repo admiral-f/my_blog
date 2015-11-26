@@ -1,6 +1,10 @@
 <h2>Add New Post</h2>
 <p>
 	<form action="/new" method="POST" role="form">
+	  <div class="form-group">
+    	<label>Your name</label>
+    	<input name="name" class="form-control"  placeholder="Enter your name" value="<%= @name %>">
+  	  </div>
 	  <textarea name="content" class="form-control" rows="5" placeholder="Type post text here"></textarea>
 	  </br>
 	  <button type="submit" class="btn btn-success"><b>YARRR!</b></button>
