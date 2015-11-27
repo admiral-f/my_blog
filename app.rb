@@ -53,7 +53,7 @@ post '/new' do
   	#return erb :new
   #end
   if @error==''
-  	@db.execute 'insert into Posts (content, created_date) values (?, datetime())', [@content]
+  	@db.execute 'insert into Posts (content, name, created_date) values (?,?, datetime())', [@content, @name]
   	redirect to ('/')
   end
   erb :new
@@ -70,15 +70,17 @@ end
 post '/post/:id' do
 	comment=params[:content]
 	post_id=params[:id]
-	if comment.length <= 0
-  		@error= "Please, type comment text"
-  		results=@db.execute 'select * from Posts where id=(?)',[post_id]
-		@row=results[0]
-		@comments=@db.execute 'select * from Comments where post_id=(?) order by id',[post_id]
-		return erb :posts
-  	else  	
-		@db.execute 'insert into Comments (content, created_date, post_id) values (?, datetime(), ?)', [comment, post_id]
-	end
-	redirect to ('/post/' + post_id)
+	@name=params[:name]
+	hh={:name=> "Please, enter your name", :content=>"Please, type comment text"}
+  	@error=hh.select {|key,_| params[key]==""}.values.join("; ")
+  	results=@db.execute 'select * from Posts where id=(?)',[post_id]
+	@row=results[0]
+    @comments=@db.execute 'select * from Comments where post_id=(?) order by id',[post_id]
+    
+	if @error==''
+  		@db.execute 'insert into Comments (content, name, created_date, post_id) values (?,?, datetime(), ?)', [comment, @name, post_id]
+  		redirect to ('/post/' + post_id)
+  	end
+	return erb :posts
 
 end

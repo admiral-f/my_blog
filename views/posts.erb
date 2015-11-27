@@ -19,6 +19,10 @@ Comments:
 </br>
 <p>
 	<form action="/post/<%= @row['id']%>" method="POST" role="form">
+	  <div class="form-group">
+    	<label>Your name</label>
+    	<input name="name" class="form-control"  placeholder="Enter your name" value="<%= @name %>">
+  	  </div>
 	  <textarea name="content" class="form-control" rows="2" placeholder="Type comment here"></textarea>
 	  </br>
 	  <button type="submit" class="btn btn-success">Add comment!</button>
