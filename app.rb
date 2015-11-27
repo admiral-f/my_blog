@@ -18,6 +18,7 @@ configure do
 	@db.execute 'CREATE TABLE IF NOT EXISTS "Posts"
 	    (
 	      "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+	      "name" TEXT,
 	      "created_date" DATE,
 	      "content" TEXT
 	    )'
@@ -25,6 +26,7 @@ configure do
 	    (
 	      "id" INTEGER PRIMARY KEY AUTOINCREMENT,
 	      "post_id" INTEGER,
+	      "name" TEXT,
 	      "created_date" DATE,
 	      "content" TEXT
 	    )'
@@ -32,7 +34,8 @@ configure do
 end
 
 get '/' do
-	@results=@db.execute 'select * from Posts order by id desc'	
+	@results=@db.execute 'select * from Posts order by id desc'
+	@NumComments=@db.execute 'select post_id, count(post_id) from Comments group by post_id'	
     erb :index 			
 end
 
