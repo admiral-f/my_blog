@@ -12,7 +12,7 @@ Comments:
 <hr/>
 <% @comments.each do |comment| %>
 	<p><b><%= comment['content']%></b></p>
-		<small style="color: #999"><i>Added at <%= comment['created_date']%></i></small>
+		<small style="color: #999"><i>Added at <%= comment['created_date']%> by <%= comment['name'] %></i></small>
 		</br>
 		<hr/> 
 <% end %>
